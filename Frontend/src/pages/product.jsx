@@ -1,0 +1,12 @@
+import { useContext, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
+import { StoreContext } from '../context/StoreContext';
+const Product = () => {
+  const { id } = useParams(); const { products, addToCart } = useContext(StoreContext); const product = products.find((item) => item._id === id); const [size, setSize] = useState(''); const [image, setImage] = useState(0); const [added, setAdded] = useState(false);
+  if (!product) return <div className="py-20 text-center">Product not found. <Link className="underline" to="/collection">Back to collection</Link></div>;
+  const add = () => { if (!size) return; addToCart(product._id, size); setAdded(true); };
+  return (
+    <div className="grid gap-8 pt-6 sm:grid-cols-2 sm:gap-10 sm:pt-10"><div className="flex flex-col-reverse gap-3 sm:flex-row"><div className="flex w-full gap-2 overflow-x-auto pb-1 sm:w-20 sm:flex-col sm:gap-3">{product.image.map((img, index) => <button key={img} onClick={() => setImage(index)} className={`min-w-16 border sm:min-w-0 ${image === index ? 'border-black' : 'border-transparent'}`}><img src={img} alt="" /></button>)}</div><div className="flex-1 bg-[#f8f5f2]"><img src={product.image[image]} className="w-full" alt={product.name} /></div></div><div className="max-w-xl"><h1 className="text-xl font-medium sm:text-2xl">{product.name}</h1><p className="mt-3 text-base sm:mt-4 sm:text-lg">★★★★★ <span className="text-sm text-gray-500">(124 reviews)</span></p><p className="mt-4 text-xl font-semibold sm:mt-5 sm:text-2xl">₹{product.price}</p><p className="mt-5 max-w-md text-sm leading-6 text-gray-500">{product.description}</p><p className="mt-7 text-sm font-medium">Select Size</p><div className="mt-3 flex flex-wrap gap-2">{product.sizes.map((item) => <button onClick={() => setSize(item)} key={item} className={`min-h-11 border px-4 py-2 ${size === item ? 'border-black bg-black text-white' : 'bg-gray-100'}`}>{item}</button>)}</div><button onClick={add} className="mt-7 w-full bg-black px-10 py-3 text-sm text-white sm:w-auto">ADD TO CART</button>{!size && <p className="mt-2 text-xs text-red-500">Choose a size before adding.</p>}{added && <p className="mt-3 text-sm text-green-700">Added to cart! <Link to="/cart" className="underline">View cart</Link></p>}<hr className="my-8" /><div className="space-y-1 text-xs text-gray-500"><p>✓ 100% original products</p><p>✓ Cash on delivery available</p><p>✓ Easy 7-day return and exchange</p></div></div></div>
+  )
+}
+export default Product

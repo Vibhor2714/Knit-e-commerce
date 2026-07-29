@@ -1,0 +1,77 @@
+import { useContext, useState } from "react";
+import { assets } from "../assets/assets";
+import { Link, NavLink } from "react-router-dom";
+import { StoreContext } from '../context/StoreContext';
+
+const Navbar = () => {
+
+  const [visible,setVisible] = useState(false)
+  const [searchOpen, setSearchOpen] = useState(false)
+  const { cartCount, user, setUser } = useContext(StoreContext)
+  return (
+    <div className="relative z-30 flex items-center justify-between py-4 font-medium sm:py-5">
+
+      <Link to="/"><img src={assets.logo} className="w-28 sm:w-32" alt="Forever Store" /></Link>
+
+      <ul className="hidden sm:flex gap-5 text-sm text-gray-700">
+
+        <NavLink to="/" end className="flex flex-col items-center gap-1">
+          <p>HOME</p>
+          <hr className="hidden w-2/4 border-none h-[1.5px] bg-gray-700" />
+        </NavLink>
+
+        <NavLink to="/collection" className="flex flex-col items-center gap-1">
+          <p>COLLECTION</p>
+          <hr className="hidden w-2/4 border-none h-[1.5px] bg-gray-700" />
+        </NavLink>
+
+        <NavLink to="/about" className="flex flex-col items-center gap-1">
+          <p>ABOUT</p>
+          <hr className="hidden w-2/4 border-none h-[1.5px] bg-gray-700" />
+        </NavLink>
+
+        <NavLink to="/contact" className="flex flex-col items-center gap-1">
+          <p>CONTACT</p>
+          <hr className="hidden w-2/4 border-none h-[1.5px] bg-gray-700" />
+        </NavLink>
+
+      </ul>
+
+      <div className="flex items-center gap-4 sm:gap-6">
+        <button onClick={() => setSearchOpen((open) => !open)} aria-label="Search"><img src={assets.search_icon} className="w-5 cursor-pointer" alt="" /></button>
+
+        <div className="group relative">
+          <img src={assets.profile_icon} className="w-5 cursor-pointer" alt="" />
+
+          <div className="group-hover:block hidden absolute dropdown-menu right-0 pt-4">
+            <div className="flex flex-col gap-2 w-36 py-3 px-5 bg-slate-100 text-gray-500 rounded">
+              <p className="text-xs">{user?.name || 'Guest'}</p>
+              <Link to="/orders" className="hover:text-black">Orders</Link>
+              {user ? <button onClick={() => setUser(null)} className="text-left hover:text-black">Logout</button> : <Link to="/login" className="hover:text-black">Login</Link>}
+            </div>
+          </div>
+        </div>
+        <Link to="/cart" className="relative">
+        <img src={assets.cart_icon} className="w-5 min-w-5" alt="" />
+        {cartCount > 0 && <p className="absolute -right-2 -bottom-2 w-4 text-center text-[10px] leading-4 bg-black text-white aspect-square rounded-full">{cartCount}</p>}
+        </Link>
+        <img onClick={()=>setVisible(true)} src={assets.menu_icon} className="w-5 cursor-pointer sm:hidden" alt="" />
+      </div>
+      {searchOpen && <div className="fixed left-0 right-0 top-[65px] z-20 border-y bg-white px-4 py-3 shadow-sm sm:absolute sm:top-[76px]"><form onSubmit={(e) => { e.preventDefault(); window.location.href = `/collection?search=${encodeURIComponent(e.currentTarget.q.value)}`; }} className="mx-auto flex max-w-xl"><input name="q" autoFocus placeholder="Search products..." className="w-full border px-3 py-2 outline-none" /><button className="bg-black px-5 text-white">Search</button></form></div>}
+      <div className={`fixed inset-0 overflow-hidden bg-white transition-all duration-300 ${visible ? 'w-full' : 'w-0'}`}>
+        <div className="flex flex-col text-gray-600">
+          <div onClick={()=>setVisible(false)}className="flex items-center gap-4 p-3 cursor-pointer">
+            <img className="h-4 rotate-180" src={assets.dropdown_icon} alt="" />
+            <p>Back</p>  
+          </div>
+          <NavLink onClick={()=>setVisible(false)} className="py-2 pl-6 border" to="/">HOME</NavLink>
+          <NavLink onClick={()=>setVisible(false)} className="py-2 pl-6 border" to="/collection">COLLECTION</NavLink>
+          <NavLink onClick={()=>setVisible(false)} className="py-2 pl-6 border" to="/about">ABOUT</NavLink>
+          <NavLink onClick={()=>setVisible(false)} className="py-2 pl-6 border" to="/contact">CONTACT</NavLink>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Navbar; 

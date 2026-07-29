@@ -8,13 +8,13 @@ const read = (key, fallback) => {
 };
 
 export function StoreProvider({ children }) {
-  const [cart, setCart] = useState(() => read('forever-cart', {}));
-  const [orders, setOrders] = useState(() => read('forever-orders', []));
-  const [user, setUser] = useState(() => read('forever-user', null));
+  const [cart, setCart] = useState(() => read('knit-cart', {}));
+  const [orders, setOrders] = useState(() => read('knit-orders', []));
+  const [user, setUser] = useState(() => read('knit-user', null));
 
-  useEffect(() => localStorage.setItem('forever-cart', JSON.stringify(cart)), [cart]);
-  useEffect(() => localStorage.setItem('forever-orders', JSON.stringify(orders)), [orders]);
-  useEffect(() => localStorage.setItem('forever-user', JSON.stringify(user)), [user]);
+  useEffect(() => localStorage.setItem('knit-cart', JSON.stringify(cart)), [cart]);
+  useEffect(() => localStorage.setItem('knit-orders', JSON.stringify(orders)), [orders]);
+  useEffect(() => localStorage.setItem('knit-user', JSON.stringify(user)), [user]);
 
   const addToCart = (id, size) => setCart((current) => {
     const key = `${id}:${size}`;

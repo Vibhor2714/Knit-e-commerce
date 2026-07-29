@@ -11,7 +11,7 @@ const Navbar = () => {
   return (
     <div className="relative z-30 flex items-center justify-between py-4 font-medium sm:py-5">
 
-      <Link to="/"><img src={assets.logo} className="w-28 sm:w-32" alt="Forever Store" /></Link>
+      <Link to="/" className="brand-wordmark" aria-label="Knit home">Knit</Link>
 
       <ul className="hidden sm:flex gap-5 text-sm text-gray-700">
 

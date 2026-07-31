@@ -1,0 +1,4 @@
+.vercel
+Backend/.env
+Backend/node_modules
+Frontend/.env.local

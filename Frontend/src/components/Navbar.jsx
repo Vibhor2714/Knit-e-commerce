@@ -7,7 +7,7 @@ const Navbar = () => {
 
   const [visible,setVisible] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
-  const { cartCount, user, setUser } = useContext(StoreContext)
+  const { cartCount, user, logout } = useContext(StoreContext)
   return (
     <div className="relative z-30 flex items-center justify-between py-4 font-medium sm:py-5">
 
@@ -47,7 +47,7 @@ const Navbar = () => {
             <div className="flex flex-col gap-2 w-36 py-3 px-5 bg-slate-100 text-gray-500 rounded">
               <p className="text-xs">{user?.name || 'Guest'}</p>
               <Link to="/orders" className="hover:text-black">Orders</Link>
-              {user ? <button onClick={() => setUser(null)} className="text-left hover:text-black">Logout</button> : <Link to="/login" className="hover:text-black">Login</Link>}
+              {user ? <button onClick={logout} className="text-left hover:text-black">Logout</button> : <Link to="/login" className="hover:text-black">Login</Link>}
             </div>
           </div>
         </div>
